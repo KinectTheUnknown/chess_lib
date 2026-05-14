@@ -149,10 +149,24 @@ ChessMove parseMoveString(String moveString, ChessGameState state) {
 }
 
 Point<int> _parseCoord(String coord) {
-  return Point<int>("abcdefgh".indexOf(coord[0]), int.parse(coord[1]) - 1);
+  if (coord.length != 2) {
+    throw FormatException("Invalid coordinate length: $coord");
+  }
+  int file = "abcdefgh".indexOf(coord[0]);
+  if (file == -1) {
+    throw FormatException("Invalid coordinate file: ${coord[0]}");
+  }
+  int rank = "12345678".indexOf(coord[1]);
+  if (rank == -1) {
+    throw FormatException("Invalid coordinate rank: ${coord[1]}");
+  }
+  return Point<int>(file, rank);
 }
 
 ChessMove parseLongAlgebraicNotation(String notation, ChessGameState state) {
+  if (notation.length < 4 || notation.length > 5) {
+    throw FormatException("Invalid long algebraic notation length: $notation");
+  }
   Point<int> begin = _parseCoord(notation.substring(0, 2));
   Point<int> end = _parseCoord(notation.substring(2, 4));
   ChessPiece promotion = ChessPiece.none;
