@@ -74,7 +74,8 @@ void main() {
     });
 
     test('Castling move invokes Castling.doMove', () {
-      final customBoard = List.generate(8, (_) => List.filled(8, ChessPiece.none));
+      final customBoard =
+          List.generate(8, (_) => List.filled(8, ChessPiece.none));
       customBoard[0][4] = ChessPiece.white_king; // e1
       customBoard[0][7] = ChessPiece.white_rook; // h1
 
@@ -110,7 +111,8 @@ void main() {
 
       expect(board[4][0], ChessPiece.none); // White pawn left
       expect(board[5][1], ChessPiece.white_pawn); // White pawn arrived
-      expect(board[4][1], ChessPiece.none); // Black pawn captured via en passant
+      expect(
+          board[4][1], ChessPiece.none); // Black pawn captured via en passant
     });
 
     test('En passant throws if target pawn missing', () {
@@ -209,7 +211,7 @@ void main() {
       final move = ChessMove(
         piece: ChessPiece.white_pawn,
         start: const Point(0, 4), // a5
-        end: const Point(1, 5),   // b6
+        end: const Point(1, 5), // b6
         capture: ChessPiece.black_pawn,
         enPessant: true,
       );

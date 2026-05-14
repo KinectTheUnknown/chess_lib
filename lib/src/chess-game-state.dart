@@ -20,6 +20,7 @@ class ChessGameState {
   final Player currentPlayer;
   final Set<Castling> availableCastling;
   final int moveCount; // counts up for both black and white
+  final int halfMoveClock;
 
   List<ChessMove>? _moves;
   String? _fenPositionId;
@@ -29,7 +30,8 @@ class ChessGameState {
       required this.board,
       required this.currentPlayer,
       required this.availableCastling,
-      required this.moveCount});
+      required this.moveCount,
+      required this.halfMoveClock});
 
   factory ChessGameState.initialBoardPosition() {
     return ChessGameState(
@@ -41,7 +43,8 @@ class ChessGameState {
           Castling.black_long,
           Castling.black_short
         },
-        moveCount: 0);
+        moveCount: 0,
+        halfMoveClock: 0);
   }
 
   factory ChessGameState.fromFen(String fen) {
@@ -66,12 +69,20 @@ class ChessGameState {
         newAvailableCastling.add(c);
       }
     }
+
+    int newHalfMoveClock = halfMoveClock + 1;
+    if (move.piece.pieceType == PieceType.pawn ||
+        move.capture != ChessPiece.none) {
+      newHalfMoveClock = 0;
+    }
+
     return ChessGameState(
         lastMove: move,
         board: newBoard,
         currentPlayer: currentPlayer.opposite,
         availableCastling: newAvailableCastling,
-        moveCount: moveCount + 1);
+        moveCount: moveCount + 1,
+        halfMoveClock: newHalfMoveClock);
   }
 
   ChessGameState copyGameState() {
@@ -81,7 +92,8 @@ class ChessGameState {
         board: newBoard,
         currentPlayer: currentPlayer,
         availableCastling: availableCastling,
-        moveCount: moveCount);
+        moveCount: moveCount,
+        halfMoveClock: halfMoveClock);
   }
 
   String get forsythEdwardsNotation => getForsythEdwardsNotation(this);

@@ -4,6 +4,7 @@ import 'chess-move.dart';
 import 'chess-piece.dart';
 
 enum CastlingType { long, short }
+
 enum Castling { white_short, white_long, black_short, black_long, none }
 
 extension CastlingUtil on Castling {
