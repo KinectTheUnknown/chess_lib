@@ -73,8 +73,7 @@ String getForsythEdwardsNotation(ChessGameState state) {
   // TODO available en pessant
   str += "-";
   str += " ";
-  // TODO half move clock?
-  str += "0";
+  str += "${state.halfMoveClock}";
   str += " ";
   // TODO This might be wrong? move count / 2?
   str += "${state.moveCount}";
@@ -122,5 +121,6 @@ ChessGameState fromFen(String fen) {
       board: _getBoardFromFenBoard(parts[0]),
       currentPlayer: parts[1] == 'w' ? Player.white : Player.black,
       availableCastling: _getCastling(parts[2]),
+      halfMoveClock: int.parse(parts[4]),
       moveCount: int.parse(parts[5]));
 }
